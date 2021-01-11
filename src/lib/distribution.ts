@@ -1,7 +1,13 @@
 import * as d3 from 'd3';
 import { sample } from 'lodash';
 
-abstract class Distribution {
+/**
+ * Abstract distribution class. All distributions are infinite lazy iterators.
+ * They have a generate number function which returns a number
+ *
+ * @category Distribution
+ */
+export abstract class Distribution {
   abstract generateNumber(): number;
 
   *[Symbol.iterator]() {
@@ -11,6 +17,11 @@ abstract class Distribution {
   }
 }
 
+/**
+ * Normal description
+ *
+ * @category Distribution
+ */
 export class NormalDistribution extends Distribution {
   constructor(private readonly mean: number, private readonly stddev: number) {
     super();
@@ -20,6 +31,11 @@ export class NormalDistribution extends Distribution {
   }
 }
 
+/**
+ * Constant description. Would be used for a fixed value
+ *
+ * @category Distribution
+ */
 export class ConstantDistribution extends Distribution {
   constructor(private readonly num: number) {
     super();
@@ -30,6 +46,11 @@ export class ConstantDistribution extends Distribution {
   }
 }
 
+/**
+ * Combined distribution. Useful for creating bimodal or complex distributions.
+ *
+ * @category Distribution
+ */
 export class CombinedDistribution extends Distribution {
   private distributions: {
     coefficient: number;
