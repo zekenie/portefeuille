@@ -6,7 +6,7 @@ import * as distribution from './distribution';
 
 test('normal distribution simulation averages the mean with correct stddev', (t) => {
   const d = new distribution.NormalDistribution(5, 1);
-  const numbers = wu.take(55, d).toArray();
+  const numbers = wu.take(250, d).toArray();
   const mean = stats.mean(numbers);
   const stddev = stats.standardDeviation(numbers);
   t.truthy(mean > 4.5);
@@ -25,8 +25,8 @@ test('combined distributions combine others and present them with correct coeffi
   const d = new distribution.CombinedDistribution()
     .add(new distribution.NormalDistribution(10, 1), 1)
     .add(new distribution.NormalDistribution(0, 1), 3);
-  const numbers = wu.take(55, d).toArray();
+  const numbers = wu.take(350, d).toArray();
   const mean = stats.mean(numbers);
-  t.truthy(mean > 2.3);
-  t.truthy(mean < 2.7);
+  t.truthy(mean > 2);
+  t.truthy(mean < 3.1);
 });
