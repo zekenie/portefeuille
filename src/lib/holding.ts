@@ -1,35 +1,4 @@
-import { Distribution } from './distribution';
-
-type Timestamp = { previous: number; step: number };
-
-type GrowthModel = (timestamp: Timestamp) => number;
-type TimeConstraint = (timestamp: Timestamp) => boolean;
-
-const always: TimeConstraint = () => true;
-
-class GrowthModelPlan {
-  models: {
-    distribution: Distribution;
-    when: TimeConstraint;
-  }[] = [];
-
-  public distribution(
-    distribution: Distribution,
-    when: TimeConstraint = always
-  ): GrowthModelPlan {
-    this.models.push({ distribution, when });
-    return this;
-  }
-
-  static buildGrowthModelPlan(plan: GrowthModelPlan): GrowthModel {
-    return (timestamp: Timestamp): number => {
-      const firstMatchingModel = plan.models.find((model) =>
-        model.when(timestamp)
-      );
-      return firstMatchingModel.distribution.generateNumber();
-    };
-  }
-}
+import { GrowthModel, GrowthModelPlan } from './growth-model';
 
 /**
  * `Holding`s represents assets and liabilities. They can
