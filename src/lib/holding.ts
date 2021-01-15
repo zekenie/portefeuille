@@ -1,5 +1,7 @@
 import { GrowthModel, GrowthModelPlan } from './growth-model';
 
+export type HoldingConfiguration = (holding: Holding) => Holding;
+
 /**
  * `Holding`s represents assets and liabilities. They can
  * grow on their own (in positive and negative ways).
@@ -31,7 +33,7 @@ export class Holding {
    * )
    * ```
    */
-  public static create(configure: (holding: Holding) => Holding): Holding {
+  public static create(configure: HoldingConfiguration): Holding {
     const holding = new Holding();
     return configure(holding);
   }

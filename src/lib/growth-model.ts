@@ -1,6 +1,6 @@
 import { Distribution } from './distribution';
 
-type Timestamp = { previous: number; step: number };
+export type Timestamp = { previous: number; step: number };
 
 export type GrowthModel = (timestamp: Timestamp) => number;
 type TimeConstraint = (timestamp: Timestamp) => boolean;
