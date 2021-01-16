@@ -1,4 +1,4 @@
-import { Timestamp } from './growth-model';
+import { GrowthModel, GrowthModelPlan, Timestamp } from './growth-model';
 
 export type PipeConfiguration = (pipe: Pipe) => Pipe;
 export type Faucet = (timestamp: Timestamp) => number;
@@ -9,28 +9,41 @@ export class Pipe {
   fromPath: string;
   toPath: string;
   taps: Tap[] = [];
-  faucets: Faucet[];
+  faucets: Faucet[] = [];
+  baseVolume = 0;
+  growthModel: GrowthModel;
 
   public static create(configure: PipeConfiguration): Pipe {
     const p = new Pipe();
     return configure(p);
   }
 
-  to(path: string) {
+  wire(fromPath: string, toPath: string) {
     return this.change({
-      toPath: path,
-    });
-  }
-
-  from(path: string) {
-    return this.change({
-      fromPath: path,
+      fromPath,
+      toPath,
     });
   }
 
   addFaucet(faucet: Faucet) {
     return this.change({
       faucets: [...this.faucets, faucet],
+    });
+  }
+
+  public setBaseVolume(base: number) {
+    return this.change({
+      baseVolume: base,
+    });
+  }
+
+  public grow(
+    configureGrowth: (plan: GrowthModelPlan) => GrowthModelPlan
+  ): Pipe {
+    const plan = new GrowthModelPlan();
+    const model = GrowthModelPlan.buildGrowthModelPlan(configureGrowth(plan));
+    return this.change({
+      growthModel: model,
     });
   }
 

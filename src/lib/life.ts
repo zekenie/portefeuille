@@ -13,4 +13,8 @@ export class Life {
 /**
  * ideas:
  * - tick function with api to like.... determine outcomes, set context
+ * - transaction class... debit credit
+ * - runtime classes
+ * - holding configurable about when to reject transaction from pipe
+ * - pipe compiles to function
  */
