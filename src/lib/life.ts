@@ -1,11 +1,23 @@
 import { Holding, HoldingConfiguration } from './holding';
+import { Pipe, PipeConfiguration } from './pipe';
 
 export class Life {
   private holdings: { [path: string]: Holding };
+  private pipes: Pipe[];
 
   public addHolding(path: string, conf: HoldingConfiguration): Life {
     const holding = Holding.create(conf);
     this.holdings[path] = holding;
+    return this;
+  }
+
+  getHolding(path: string): Holding {
+    return this.holdings[path];
+  }
+
+  public addPipe(conf: PipeConfiguration): Life {
+    const pipe = Pipe.create(conf);
+    this.pipes.push(pipe);
     return this;
   }
 }
